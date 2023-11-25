@@ -1,0 +1,31 @@
+{% extends "base/homebase.html" %}
+{% block title %}Blog-Page {% endblock title %}
+{% block blogactive %} active {% endblock blogactive %}
+
+{% block body %}
+<br>
+<h2>Popular Blogs</h2>
+
+<div class="row mb-2">
+  {% for i in allpost %}
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">By {{i.author}}</strong>
+          <h2 class="mb-0">{{i.title}} <br></h2>
+          <p>{{i.slug}}</p>
+          <div class="mb-1 text-body-secondary">{{i.timestamp}}</div>
+          <p class="card-text mb-auto">{{i.content}}</p>
+          <a href="/blog/{{i.slug}}" class="icon-link gap-1 icon-link-hover stretched-link">
+            Continue reading
+            <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+  {% endfor %}
+   
+  </div>
+  
+{% endblock body %}

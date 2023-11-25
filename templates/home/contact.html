@@ -1,0 +1,32 @@
+{% extends "base/homebase.html" %}
+{% block title %}Contact-Us{% endblock title %}
+{% block contactactive %}active{% endblock contactactive %}
+
+{% block body %}
+<h2 style="text-align: center;">Contact Us</h2>
+
+<form method="POST" action="{% url 'contactpageHome' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" email placeholder="name@example.com">
+    </div>
+
+    <div class="mb-3">
+        <label for="phone" class="form-label">Contact Number</label>
+        <input type="text" class="form-control" id="phone" name="phone" placeholder="Contact Number">
+    </div>
+
+    <div class="mb-3">
+        <label for="content" class="form-label">Example textarea</label>
+        <textarea class="form-control" id="content" name="content" placeholder="Say something..." rows="3"></textarea>
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock body %}
