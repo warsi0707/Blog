@@ -1,4 +1,5 @@
 {% extends "base/homebase.html" %}
+{% load humanize %}
 {% block title %}Blog-Post {% endblock title %}
 
 {% block body %}
@@ -12,5 +13,33 @@
         <p>{{post.content}}</p>
     </div>
 </div>
+
+<div class="coniatiner" style="margin-left: 100px; margin-right: 100px; border: 5px solid black;">
+    <h2>Comments  ({{comments.count}})</h2>
+    {% if user.is_authenticated %}
+    <p>authenticated</p>
+    
+    <form action="{/<str:slug>}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInput">Post Comment</label>
+            <input type="text" class="form-control mx-2" name="comment" placeholder="Enter a commnet">
+        </div>
+        <input type="hidden" name="postSno" value="{{post.sno}}">
+        <button type="submit" class="btn btn-primary mx-2 my-3">Submit</button>
+    </form>
+    {% else %}
+    <h4 class="text-warning mx-2">Please log in to post comment </h4>
+    {% endif %}
+    </div>
+
+    {% for comment in comment  %}
+    <div class="row my-3">
+        <div class="col-md-10 my-3">
+            <b class="text-info"></b>>{{comment.user.username}}</b>
+            <div>{{comment.commnet}}</div>
+        </div>
+    </div>
+    {% endfor %}
   
 {% endblock body %}

@@ -7,4 +7,5 @@ from myblog import views
 urlpatterns =[
     path("", views.blogpage, name='blogpage'),
     path("<str:slug>", views.blogPost, name='blogPost'),
+    path('postcomment', views.postcomment, name='postcomment'),
 ]

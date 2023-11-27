@@ -1,6 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
+from django.contrib import auth
 from django.contrib.auth.models import User
-from django.shortcuts import render, reverse, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 from home.models import Contact
 from django.contrib import messages
 from myblog.models import Post
@@ -50,54 +53,57 @@ def search(request):
 
 def signup(request):
     if request.method == 'POST':
-
         # PARAMETER
-        username = request.POST['username']
+        uname = request.POST['username']
         fname = request.POST['fname']
         lname = request.POST['lname']
         email = request.POST['email']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
+        pass1 = request.POST['password1']
+        pass2 = request.POST['password2']
 
         #Check for error in the input
-        if len(username)>10:
+        if len(uname)>10:
             messages.error(request, "Ussername should be less than 10 characters.")
             return redirect('homepageHome')
-        if (password1 != password2):
+        if (pass1 != pass2):
             messages.error(request, "Confirm password didn't match with password")
             return redirect('homepageHome')
 
         #Creating User 
-        myuser = User.objects.create_user(username, email, password1)
-        myuser.first_name = fname
-        myuser.last_name = lname
-        myuser.save()
-        messages.success(request,"Your account has been created succesfully")
-        return redirect('homepageHome')
+        else:
+            myuser = User.objects.create_user(uname, email, pass1)
+            # myuser.first_name = fname
+            # myuser.last_name = lname
+            myuser.save()
+            messages.success(request,"Your account has been created succesfully")
+            return redirect('homepageHome')
 
-    else:
-        return HttpResponse("Error! - Please try again")
+    
+    return HttpResponse("Error! - Please try again")
 
 
 
 def login(request):
     if request.method == 'POST':
         #Pareameter for the post
-        username = request.POST['username']
-        password1 = request.POST['password1']
+        uname = request.POST['username']
+        pass1 = request.POST['password1']
 
-        user = authenticate(username = username, password1 = password1)
+        user = authenticate(username = uname,  password = pass1)
         if user is not None:
-            messages.error(request, "Invalid credentials! Please check and retry")
+            auth_login(request, user)
+            messages.success(request, "Successfully logged In")
             return redirect('homepageHome')
-
         else:
-            login(request, user)
-            messages.success(request,"Successfully logged In")
+            messages.error(request,"Login Failed ! ")
             return redirect('homepageHome')
-    return HttpResponse("Error! 404 - Not Found!")
 
-def logout(request):
+        
+    return redirect("homepageHome")
+
+
+def bloglogout(request):
     logout(request)
     messages.success(request,"Successfully logged Out! ")
     return redirect('homepageHome')
+

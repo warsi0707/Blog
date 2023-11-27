@@ -1,5 +1,8 @@
-from django.shortcuts import render, HttpResponse
-from myblog.models import Post
+from django.shortcuts import render, HttpResponse, redirect
+from myblog.models import Post, BlogComment
+from django.contrib.auth.models import User
+from django.contrib import messages
+
 
 # Create your views here.
 def blogpage(request):
@@ -9,5 +12,17 @@ def blogpage(request):
 
 def blogPost(request, slug):
     post = Post.objects.filter(slug=slug).first()
-    context = {'post':post}
+    comments = BlogComment.objects.filter(post=post)
+    context = {'post':post, 'comments':comments, 'user':request.user}
     return render(request,"myblog/blogPost.html", context)
+
+def postcomment(request):
+    if request.method == 'POST':
+        comment = request.POST.get('comment')
+        user = request.User
+        postSno = request.POST.get('postSno')
+        post = Post.objects.get(sno=postSno)
+        comments=BlogComment(comment=comment, user=user, post=post)
+        comments.save()
+        messages.success(request, "Your comment has been posted successfully")
+    return redirect({post.slug})

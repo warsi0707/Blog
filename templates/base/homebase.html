@@ -57,27 +57,28 @@
               <input class="form-control me-2" name="query" id="query" type="search" placeholder="Search"
                 aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            </form> &nbsp;
             {% if user.is_authenticated %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Welcome {{request.user}}
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
               </ul>
-            </li>
-              
+            </div>
+            {% else %}
+            <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop">Login</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop2">SignUp</button>
             {% endif %}
+
           </div>
         </div>
-        <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop">Login</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop2">SignUp</button>
+
+
     </nav>
   </div>
 
@@ -96,12 +97,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="/login">
+          <form method="POST" action="/login">
             {% csrf_token %}
             <div class="mb-3">
               <label for="username" class="form-label">User Name</label>
-              <input type="text" class="form-control" id="username" name="username" >
-              
+              <input type="text" class="form-control" id="username" name="username">
+
             </div>
             <div class="mb-3">
               <label for="password1" class="form-label">Password</label>
@@ -111,10 +112,10 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Login</button>
             </div>
-           
+
           </form>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -130,20 +131,20 @@
         </div>
         <div class="modal-body">
           <form method="POST" action="/signup">
-            
+
             <div class="mb-3">
               {% csrf_token %}
-              <label for="username" class="form-label">Username</label>
+              <label for="text" class="form-label">Username</label>
               <input type="text" class="form-control" id="username" name="username">
             </div>
 
             <div class="mb-3">
-              <label for="fname" class="form-label">Fisrt Name</label>
+              <label for="text" class="form-label">Fisrt Name</label>
               <input type="text" class="form-control" id="fname" name="fname">
             </div>
 
             <div class="mb-3">
-              <label for="lname" class="form-label">Last Name</label>
+              <label for="text" class="form-label">Last Name</label>
               <input type="text" class="form-control" id="lname" name="lname">
             </div>
 
@@ -167,10 +168,10 @@
               <button type="submit" class="btn btn-primary">Sign-up</button>
             </div>
 
-            
+
           </form>
         </div>
-        
+
       </div>
     </div>
   </div>
